@@ -1,0 +1,6 @@
+# js folders
+node_modules
+dist
+deploy
+# vs code
+.vscode
