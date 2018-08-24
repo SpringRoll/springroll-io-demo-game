@@ -22,8 +22,11 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
 
         const debugEvents = [
             "captionStart",
+            "speechSynthStart",
             "localizerResolve",
-            "pauseScreenActive"
+            "pauseScreenActive",
+            "audioSFXMute",
+            "audioVOMute"
         ]
 
         for (let i = 0; i < debugEvents.length; i++)

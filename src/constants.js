@@ -16,3 +16,11 @@ export const PATHS = Object.freeze(
         'es': { path: 'assets/es/' }
     }
 });
+
+export const SPEECH = Object.freeze(
+{
+    volume: 0.6, 
+    rate: 1, 
+    pitch: 0, 
+    voice: 4 
+});

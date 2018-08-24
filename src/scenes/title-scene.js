@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
+import { SpeechSynth } from 'springroll';
 
-import { SCENE } from '../constants';
+import { SCENE, SPEECH } from '../constants';
 import { GameScene } from './game-scene';
 
 export class TitleScene extends GameScene
@@ -23,7 +24,17 @@ export class TitleScene extends GameScene
             enter: ENTER
         });
 
+        this.stringData = this.cache.json.get('strings');
+
+        this.speaker = new SpeechSynth(SPEECH);
+
         this.springroll.playCaption('welcome');
+        this.time.addEvent({delay: 5000, callback: this.speechDelay, callbackScope: this });
+    }
+
+    speechDelay()
+    {
+        this.speaker.say(this.stringData.speechIntro);
     }
 
     update()

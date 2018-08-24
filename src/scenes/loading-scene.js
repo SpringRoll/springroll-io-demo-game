@@ -113,13 +113,15 @@ export class LoadingScene extends GameScene
         // This will load the proper captions depending on the browsers language.
         const captionsResult = this.localizer.resolve('captions.json');
         this.load.json('captions', captionsResult.path);
-
         this.springroll.events.emit('localizerResolve', captionsResult);
+
+        const stringsResult = this.localizer.resolve('strings.json');
+        this.load.json('strings', stringsResult.path);
+        this.springroll.events.emit('localizerResolve', stringsResult);
 
         // localizer works for any file type.
         const titleResult = this.localizer.resolve('title/button.png');
         this.load.image('button', titleResult.path);
-
         this.springroll.events.emit('localizerResolve', titleResult);
     }
 
