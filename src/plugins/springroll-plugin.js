@@ -10,7 +10,7 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
         this.app = new Application(
         {
             captions: true,
-            sound: false,
+            sound: true,
             vo: false,
             music: false,
             sfx: false
@@ -25,8 +25,7 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
             "speechSynthStart",
             "localizerResolve",
             "pauseScreenActive",
-            "audioSFXMute",
-            "audioVOMute"
+            "soundMute"
         ]
 
         for (let i = 0; i < debugEvents.length; i++)
@@ -54,6 +53,12 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
             {
                 this.stopCaption();
             }
+        });
+
+        this.app.state.soundMuted.subscribe((isMuted) =>
+        {
+            this.events.emit('soundMute', isMuted);
+            this.game.sound.mute = isMuted; // <-- global mute;
         });
     }
 
@@ -100,7 +105,7 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
         {
             return;
         }
-        
+
         this.captionPlayer.stop();
     }
 }

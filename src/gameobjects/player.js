@@ -17,8 +17,11 @@ export class Player
         this.sprite.body.setBounceY(0.1);
         this.sprite.setCollideWorldBounds(true);
 
+        this.jumpSound = scene.sound.add('jump-fx');
+
         const { SPACE, A, D } = Phaser.Input.Keyboard.KeyCodes;
-        this.keys = scene.input.keyboard.addKeys({
+        this.keys = scene.input.keyboard.addKeys(
+        {
             space: SPACE,
             a: A,
             d: D
@@ -27,7 +30,7 @@ export class Player
 
     update()
     {
-        if(!this.sprite.body)
+        if (!this.sprite.body)
         {
             return;
         }
@@ -41,11 +44,11 @@ export class Player
         const keys = this.keys;
         const sprite = this.sprite;
 
-        if(keys.a.isDown)
+        if (keys.a.isDown)
         {
             sprite.setVelocityX(-160);
         }
-        else if(keys.d.isDown)
+        else if (keys.d.isDown)
         {
             sprite.setVelocityX(160);
         }
@@ -54,8 +57,9 @@ export class Player
             sprite.setVelocityX(0)
         }
 
-        if(sprite.body.touching.down && keys.space .isDown)
+        if (sprite.body.touching.down && keys.space.isDown)
         {
+            this.jumpSound.play();
             sprite.setVelocityY(-250);
         }
     }
@@ -64,14 +68,14 @@ export class Player
     {
         const sprite = this.sprite;
 
-        if(sprite.body.touching.down)
+        if (sprite.body.touching.down)
         {
-            if(sprite.body.velocity.x > DEAD_ZONE)
+            if (sprite.body.velocity.x > DEAD_ZONE)
             {
                 sprite.anims.play('player-run', true);
                 sprite.flipX = false;
             }
-            else if(sprite.body.velocity.x < -DEAD_ZONE)
+            else if (sprite.body.velocity.x < -DEAD_ZONE)
             {
                 sprite.anims.play('player-run', true);
                 sprite.flipX = true;
@@ -83,16 +87,16 @@ export class Player
         }
         else
         {
-            if(sprite.body.velocity.x > DEAD_ZONE)
+            if (sprite.body.velocity.x > DEAD_ZONE)
             {
                 sprite.flipX = false;
             }
-            else if(sprite.body.velocity.x < -DEAD_ZONE)
+            else if (sprite.body.velocity.x < -DEAD_ZONE)
             {
                 sprite.flipX = true;
             }
 
-            if(sprite.body.velocity.y < -DEAD_ZONE)
+            if (sprite.body.velocity.y < -DEAD_ZONE)
             {
                 sprite.anims.play('player-jump');
             }

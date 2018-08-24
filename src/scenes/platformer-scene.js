@@ -21,6 +21,8 @@ export class PlatformerScene extends GameScene
 
         this.add.image(320, 240, 'background');
 
+        this.coinSound = this.sound.add('coin-fx');
+
         this.platforms = this.physics.add.staticGroup();
 
         const ground = this.platforms.create(320, 470, 'ground');
@@ -50,6 +52,8 @@ export class PlatformerScene extends GameScene
         this.physics.add.collider(this.collectibles, this.platforms);
 
         this.physics.add.overlap(this.player.sprite, this.collectibles, this.collect, null, this);
+
+        //this.sound.mute = true;
     }
 
     createAnimations()
@@ -117,6 +121,7 @@ export class PlatformerScene extends GameScene
     {
         collectible.disableBody(true, true);
         this.current++;
+        this.coinSound.play();
         if (this.current === this.total)
         {
             this.scene.start(SCENE.RESULT);

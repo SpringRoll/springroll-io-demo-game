@@ -109,7 +109,9 @@ export class LoadingScene extends GameScene
 
         this.load.json('level1', './assets/common/levels/level1.json')
 
-        
+        this.load.audio('jump-fx', ['./assets/common/audio/jump.mp3', './assets/common/audio/jump.ogg']);
+        this.load.audio('coin-fx', ['./assets/common/audio/coin.mp3', './assets/common/audio/coin.ogg']);
+
         // This will load the proper captions depending on the browsers language.
         const captionsResult = this.localizer.resolve('captions.json');
         this.load.json('captions', captionsResult.path);
