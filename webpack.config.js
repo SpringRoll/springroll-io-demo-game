@@ -1,9 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlConfig = require(path.join(__dirname, 'html.config'));
 
-const plugins = [new HtmlWebpackPlugin(HtmlConfig), new MiniCssExtractPlugin()];
+const plugins = [new HtmlWebpackPlugin(HtmlConfig), new MiniCssExtractPlugin(), new CopyPlugin([
+  { from: __dirname + '/static', to: __dirname + '/deploy' }
+])];
 
 module.exports = {
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
@@ -14,7 +17,7 @@ module.exports = {
     styles: path.join(__dirname, 'src', 'styles.css')
   },
   output: {
-    path: __dirname + '/deploy'
+    path: __dirname + '/docs'
   },
   plugins,
   module: {
@@ -39,7 +42,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'assets/image/'
+              outputPath: '/deploy/assets/image/'
             }
           }
         ]
@@ -50,7 +53,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'assets/audio/'
+              outputPath: '/deploy/assets/audio/'
             }
           }
         ]
@@ -61,7 +64,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'assets/video/'
+              outputPath: '/deploy/assets/video/'
             }
           }
         ]

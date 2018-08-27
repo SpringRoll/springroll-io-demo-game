@@ -19,8 +19,8 @@ export const PATHS = Object.freeze(
 
 export const SPEECH = Object.freeze(
 {
-    volume: 0.6, 
-    rate: 1, 
-    pitch: 0, 
-    voice: 4 
+    volume: 0.6,
+    rate: 1.2,
+    pitch: 0,
+    voice: 0
 });
