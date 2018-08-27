@@ -22,6 +22,7 @@ export class PlatformerScene extends GameScene
         this.add.image(320, 240, 'background');
 
         this.coinSound = this.sound.add('coin-fx');
+        this.coinSound.volume = 0.4; // TEMP
 
         this.platforms = this.physics.add.staticGroup();
 
