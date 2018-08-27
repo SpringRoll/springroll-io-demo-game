@@ -4,9 +4,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlConfig = require(path.join(__dirname, 'html.config'));
 
+const deploy = `/${'docs'}`;
+
+
 const plugins = [new HtmlWebpackPlugin(HtmlConfig), new MiniCssExtractPlugin(), new CopyPlugin([
-  { from: __dirname + '/static', to: __dirname + '/deploy' }
+  { from: __dirname + '/static', to: __dirname + deploy + '' }
 ])];
+
 
 module.exports = {
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
@@ -17,7 +21,7 @@ module.exports = {
     styles: path.join(__dirname, 'src', 'styles.css')
   },
   output: {
-    path: __dirname + '/docs'
+    path: __dirname + deploy
   },
   plugins,
   module: {
@@ -42,7 +46,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: '/deploy/assets/image/'
+              outputPath: deploy + '/assets/image/'
             }
           }
         ]
@@ -53,7 +57,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: '/deploy/assets/audio/'
+              outputPath: deploy + '/assets/audio/'
             }
           }
         ]
@@ -64,7 +68,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: '/deploy/assets/video/'
+              outputPath: deploy + '/assets/video/'
             }
           }
         ]
