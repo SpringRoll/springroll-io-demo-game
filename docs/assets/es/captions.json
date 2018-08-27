@@ -1,0 +1,24 @@
+{
+    "welcome": [
+    {
+        "content": "Welcome to Springroll!",
+        "start": 0,
+        "end": 1500
+    },
+    {
+        "content": "This an example of a caption",
+        "start": 1500,
+        "end": 3000
+    },
+    {
+        "content": "These can be easily made using the captions tool!",
+        "start": 3000,
+        "end": 5000
+    }],
+    "count": [
+    {
+        "content": "{{collectibles}} left to go!",
+        "start": 0,
+        "end": 1200
+    }]
+}
