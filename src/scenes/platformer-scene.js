@@ -55,6 +55,8 @@ export class PlatformerScene extends GameScene
         this.physics.add.overlap(this.player.sprite, this.collectibles, this.collect, null, this);
 
         this.events.addListener('resume', this.resumed, this);
+
+        window.addEventListener('blur', this.resetInput.bind(this));
     }
 
     createAnimations()
@@ -141,21 +143,28 @@ export class PlatformerScene extends GameScene
     shutdown()
     {
         super.shutdown();
+        window.removeEventListener('blur', this.resetInput.bind(this));
         this.events.removeListener('resume', this.resumed, this);
     }
 
     resumed()
     {
-        if(this.player)
-        {
-            // reset input
-            this.player.keys.space.reset();
-            this.player.keys.a.reset();
-            this.player.keys.d.reset();
+        resetInput();
+    }
 
-            this.player.keys.up.reset();
-            this.player.keys.left.reset();
-            this.player.keys.right.reset();
+    resetInput()
+    {
+        if (!this.player)
+        {
+            return;
         }
+
+        this.player.keys.space.reset();
+        this.player.keys.a.reset();
+        this.player.keys.d.reset();
+
+        this.player.keys.up.reset();
+        this.player.keys.left.reset();
+        this.player.keys.right.reset();
     }
 }

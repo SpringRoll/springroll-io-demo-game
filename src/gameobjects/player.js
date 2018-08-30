@@ -20,12 +20,15 @@ export class Player
         this.jumpSound = scene.sound.add('jump-fx');
         this.jumpSound.volume = 0.4; // TEMP
 
-        const { SPACE, A, D } = Phaser.Input.Keyboard.KeyCodes;
+        const { SPACE, A, D, UP, LEFT, RIGHT } = Phaser.Input.Keyboard.KeyCodes;
         this.keys = scene.input.keyboard.addKeys(
         {
             space: SPACE,
             a: A,
-            d: D
+            d: D,
+            up: UP,
+            left:LEFT,
+            right: RIGHT
         });
     }
 
@@ -45,11 +48,11 @@ export class Player
         const keys = this.keys;
         const sprite = this.sprite;
 
-        if (keys.a.isDown)
+        if (keys.a.isDown || keys.left.isDown)
         {
             sprite.setVelocityX(-160);
         }
-        else if (keys.d.isDown)
+        else if (keys.d.isDown || keys.right.isDown)
         {
             sprite.setVelocityX(160);
         }
@@ -58,7 +61,7 @@ export class Player
             sprite.setVelocityX(0)
         }
 
-        if (sprite.body.touching.down && keys.space.isDown)
+        if (sprite.body.touching.down && (keys.space.isDown || keys.up.isDown ))
         {
             this.jumpSound.play();
             sprite.setVelocityY(-250);
