@@ -14,11 +14,12 @@ export class Player
         this.scene = scene;
         this.sprite = scene.physics.add.sprite(x, y, 'character');
 
+        scene.add.sprite()
+
         this.sprite.body.setBounceY(0.1);
         this.sprite.setCollideWorldBounds(true);
 
         this.jumpSound = scene.sound.add('jump-fx');
-        this.jumpSound.volume = 0.4; // TEMP
 
         const { SPACE, A, D, UP, LEFT, RIGHT } = Phaser.Input.Keyboard.KeyCodes;
         this.keys = scene.input.keyboard.addKeys(

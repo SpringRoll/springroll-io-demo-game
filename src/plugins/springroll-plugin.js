@@ -1,5 +1,12 @@
 import Phaser from 'phaser';
-import { Application, CaptionPlayer, HtmlRenderer, Debugger } from 'springroll';
+import { Application, CaptionPlayer, HtmlRenderer, Debugger, IHintPlayer, HintSequencePlayer } from 'springroll';
+
+class TestPlayer extends IHintPlayer{
+    play()
+    {
+        console.log('test');
+    }
+}
 
 export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
 {
@@ -7,14 +14,16 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
     {
         super(pluginManager);
 
+
         this.app = new Application(
-        {
-            captions: true,
-            sound: true,
-            vo: false,
-            music: false,
-            sfx: false
-        });
+            {
+                captions: true,
+                sound: true,
+                sfx: true
+            }
+        );
+
+        this.app.hints.play();
 
         // this is just to transform some springroll events
         // to be unified with the way they're typically handled in phaser.  
@@ -27,7 +36,6 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
             "pauseScreenActive",
             "soundMute"
         ]
-
         for (let i = 0; i < debugEvents.length; i++)
         {
             const name = debugEvents[i];
@@ -55,10 +63,14 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
             }
         });
 
-        this.app.state.soundMuted.subscribe((isMuted) =>
+        this.app.state.soundVolume.subscribe((value) =>
         {
-            this.events.emit('soundMute', isMuted);
-            this.game.sound.mute = isMuted; // <-- global mute;
+            this.game.sound.volume = Math.min(1, Math.max(value, 0));
+        });
+
+        this.app.state.sfxVolume.subscribe((value) =>
+        {
+            this.events.emit('sfxVolume', Math.min(1, Math.max(value, 0)));
         });
     }
 
