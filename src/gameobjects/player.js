@@ -18,7 +18,6 @@ export class Player
         this.sprite.setCollideWorldBounds(true);
 
         this.jumpSound = scene.sound.add('jump-fx');
-        this.jumpSound.volume = 0.4; // TEMP
 
         const { SPACE, A, D, UP, LEFT, RIGHT } = Phaser.Input.Keyboard.KeyCodes;
         this.keys = scene.input.keyboard.addKeys(

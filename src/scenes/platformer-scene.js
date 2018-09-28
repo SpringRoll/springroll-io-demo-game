@@ -22,7 +22,6 @@ export class PlatformerScene extends GameScene
         this.add.image(320, 240, 'background');
 
         this.coinSound = this.sound.add('coin-fx');
-        this.coinSound.volume = 0.4; // TEMP
 
         this.platforms = this.physics.add.staticGroup();
 
@@ -55,6 +54,7 @@ export class PlatformerScene extends GameScene
         this.physics.add.overlap(this.player.sprite, this.collectibles, this.collect, null, this);
 
         this.events.addListener('resume', this.resumed, this);
+        this.springroll.events.addListener('sfxVolume', this.sfxVolume, this);
 
         window.addEventListener('blur', this.resetInput.bind(this));
     }
@@ -145,11 +145,12 @@ export class PlatformerScene extends GameScene
         super.shutdown();
         window.removeEventListener('blur', this.resetInput.bind(this));
         this.events.removeListener('resume', this.resumed, this);
+        this.springroll.events.removeListener('sfxVolume', this.sfxVolume, this);
     }
 
     resumed()
     {
-        resetInput();
+        this.resetInput();
     }
 
     resetInput()
@@ -166,5 +167,13 @@ export class PlatformerScene extends GameScene
         this.player.keys.up.reset();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
+    }
+
+    sfxVolume(value)
+    {
+        // In a production game this would be simplified into audio channels
+        // for sfx, vo, etc...
+        this.player.jumpSound.volume = value;
+        this.coinSound.volume = value;
     }
 }
