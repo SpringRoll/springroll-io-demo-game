@@ -14,8 +14,6 @@ export class Player
         this.scene = scene;
         this.sprite = scene.physics.add.sprite(x, y, 'character');
 
-        scene.add.sprite()
-
         this.sprite.body.setBounceY(0.1);
         this.sprite.setCollideWorldBounds(true);
 

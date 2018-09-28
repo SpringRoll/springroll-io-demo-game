@@ -1,19 +1,11 @@
 import Phaser from 'phaser';
-import { Application, CaptionPlayer, HtmlRenderer, Debugger, IHintPlayer, HintSequencePlayer } from 'springroll';
-
-class TestPlayer extends IHintPlayer{
-    play()
-    {
-        console.log('test');
-    }
-}
+import { Application, CaptionPlayer, HtmlRenderer, Debugger } from 'springroll';
 
 export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
 {
     constructor(pluginManager)
     {
         super(pluginManager);
-
 
         this.app = new Application(
             {
@@ -22,8 +14,6 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
                 sfx: true
             }
         );
-
-        this.app.hints.play();
 
         // this is just to transform some springroll events
         // to be unified with the way they're typically handled in phaser.  
