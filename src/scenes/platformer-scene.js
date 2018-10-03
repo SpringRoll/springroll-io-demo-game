@@ -57,6 +57,15 @@ export class PlatformerScene extends GameScene
         this.springroll.events.addListener('sfxVolume', this.sfxVolume, this);
 
         window.addEventListener('blur', this.resetInput.bind(this));
+
+        this.springroll.app.hints.clear();
+        this.springroll.app.hints.add(() =>
+        {
+            this.springroll.playCaption('You can move using W,A,S,D or the Arrow Keys!');
+        }, () =>
+        {
+            this.springroll.playCaption('Collect all the coins to win!');
+        });
     }
 
     createAnimations()
