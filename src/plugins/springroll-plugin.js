@@ -58,6 +58,7 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
             const volume = Math.min(1, Math.max(value, 0));
             if(volume === 0)
             {
+                // These are just for compatibility with springroll.io page events to display if the game is muted.
                 this.events.emit('soundMute', true);
             }
             else
