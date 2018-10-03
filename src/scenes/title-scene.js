@@ -30,6 +30,11 @@ export class TitleScene extends GameScene
 
         this.springroll.playCaption('welcome');
         this.time.addEvent({delay: 5000, callback: this.speechDelay, callbackScope: this });
+
+        this.springroll.app.hints.clear();
+        this.springroll.app.hints.add(() => {
+            this.springroll.playCaption('Press the enter key to start the game!');
+        });
     }
 
     speechDelay()

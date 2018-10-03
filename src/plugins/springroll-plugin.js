@@ -8,12 +8,13 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
         super(pluginManager);
 
         this.app = new Application(
-            {
+        {
+           features:{
                 captions: true,
                 sound: true,
                 sfx: true
             }
-        );
+        });
 
         // this is just to transform some springroll events
         // to be unified with the way they're typically handled in phaser.  
@@ -56,7 +57,7 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
         this.app.state.soundVolume.subscribe((value) =>
         {
             const volume = Math.min(1, Math.max(value, 0));
-            if(volume === 0)
+            if (volume === 0)
             {
                 // These are just for compatibility with springroll.io page events to display if the game is muted.
                 this.events.emit('soundMute', true);
@@ -64,21 +65,21 @@ export class SpringrollPlugin extends Phaser.Plugins.BasePlugin
             else
             {
                 this.events.emit('soundMute', false);
-            }       
+            }
             this.game.sound.volume = volume;
         });
 
         this.app.state.sfxVolume.subscribe((value) =>
         {
             const volume = Math.min(1, Math.max(value, 0));
-            if(volume === 0)
+            if (volume === 0)
             {
                 this.events.emit('sfxMute', true);
             }
             else
             {
                 this.events.emit('sfxMute', false);
-            }   
+            }
 
             this.events.emit('sfxVolume', volume);
         });
