@@ -61,10 +61,10 @@ export class PlatformerScene extends GameScene
         this.springroll.app.hints.clear();
         this.springroll.app.hints.add(() =>
         {
-            this.springroll.playCaption('You can move using W,A,S,D or the Arrow Keys!');
+            this.springroll.playCaption('game-hint-1');
         }, () =>
         {
-            this.springroll.playCaption('Collect all the coins to win!');
+            this.springroll.playCaption('game-hint-2');
         });
     }
 
@@ -155,6 +155,7 @@ export class PlatformerScene extends GameScene
         window.removeEventListener('blur', this.resetInput.bind(this));
         this.events.removeListener('resume', this.resumed, this);
         this.springroll.events.removeListener('sfxVolume', this.sfxVolume, this);
+        this.springroll.app.hints.clear();
     }
 
     resumed()
