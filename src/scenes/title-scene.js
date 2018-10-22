@@ -33,7 +33,7 @@ export class TitleScene extends GameScene
 
         this.springroll.app.hints.clear();
         this.springroll.app.hints.add(() => {
-            this.springroll.playCaption('Press the enter key to start the game!');
+            this.springroll.playCaption('title-hint');
         });
     }
 

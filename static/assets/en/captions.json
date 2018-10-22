@@ -20,5 +20,23 @@
         "content": "{{collectibles}} left to go!",
         "start": 0,
         "end": 1200
+    }],
+    "title-hint": [
+    {
+        "content": "Press the enter key to start the game!",
+        "start": 0,
+        "end": 1200
+    }],
+    "game-hint-1": [
+    {
+        "content": "You can move using W,A,S,D or the Arrow Keys!",
+        "start": 0,
+        "end": 1200
+    }],
+    "game-hint-2": [
+    {
+        "content": "Collect all the coins to win!",
+        "start": 0,
+        "end": 1200
     }]
 }
