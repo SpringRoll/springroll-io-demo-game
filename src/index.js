@@ -15,7 +15,7 @@ const config = {
         global: [ // install plugins.
             { key: PLUGIN_NAME.FACTORY, plugin: FactoryPlugin, start: true },
             { key: PLUGIN_NAME.CAPTIONS, plugin: CaptionsPlugin, start: true, mapping: 'captions' },
-            { key: PLUGIN_NAME.APPLICATION, plugin: ApplicationPlugin, start: true, mapping: 'springroll' }
+            { key: PLUGIN_NAME.APPLICATION, plugin: ApplicationPlugin, start: true, mapping: 'springroll' } // <-- note mapping to be used in scenes.
         ]
     },
     physics:
@@ -27,7 +27,7 @@ const config = {
             debug: false
         }
     },
-    scene: [LoadingScene, TitleScene, PlatformerScene, ResultScene, PauseScene]
+    scene: [LoadingScene, TitleScene, PlatformerScene, ResultScene, PauseScene] // <-- register scenes.
 }
 
 const game = new Phaser.Game(config);
