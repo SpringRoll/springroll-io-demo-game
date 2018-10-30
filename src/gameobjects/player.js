@@ -19,6 +19,7 @@ export class Player
 
         this.jumpSound = scene.sound.add('jump-fx');
 
+        // Add key listeners
         const { SPACE, A, D, UP, LEFT, RIGHT } = Phaser.Input.Keyboard.KeyCodes;
         this.keys = scene.input.keyboard.addKeys(
         {
@@ -40,6 +41,17 @@ export class Player
 
         this.move();
         this.animate();
+    }
+
+    resetInput()
+    {
+        this.keys.space.reset();
+        this.keys.a.reset();
+        this.keys.d.reset();
+
+        this.keys.up.reset();
+        this.keys.left.reset();
+        this.keys.right.reset();
     }
 
     move()

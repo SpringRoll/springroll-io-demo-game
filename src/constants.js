@@ -7,6 +7,21 @@ export const SCENE = Object.freeze(
     PAUSE: 'pause'
 });
 
+export const PLUGIN_NAME = Object.freeze(
+{
+    APPLICATION: "application.plugin",
+    CAPTIONS: "captions.plugin",
+    FACTORY: 'factory.plugin'
+});
+
+export const GAMEPLAY = Object.freeze(
+{
+    INITIAL_SCENE: SCENE.LOADING,
+    WIDTH: 640,
+    HEIGHT: 480,
+    GRAVITY: 350
+});
+
 export const PATHS = Object.freeze(
 {
     default: 'es',

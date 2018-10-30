@@ -4,7 +4,8 @@ import { Debugger } from 'springroll';
 import { SCENE } from '../constants';
 
 /** 
- * @typedef {import('../plugins/springroll-plugin').SpringrollPlugin} SpringrollPlugin 
+ * @typedef {import('../plugins').ApplicationPlugin} ApplicationPlugin 
+ * @typedef {import('../plugins').CaptionsPlugin} CaptionsPlugin 
  */
 
 export class GameScene extends Phaser.Scene
@@ -22,22 +23,27 @@ export class GameScene extends Phaser.Scene
 
         this.name = Object.freeze(config.key);
 
-        /** @type SpringrollPlugin */
-        this.springroll; // <-- this is injected by phaser.
+        // these are the plugins injected into the scene by phaser.
+        // this is just to help with auto complete.
+        /** @type ApplicationPlugin */
+        this.springroll; 
+        /** @type CaptionsPlugin */
+        this.captions;
     }
 
     create()
     {
-        Debugger.log('info', `[${this.name}]`, ' -- CREATE -- ');
+        // if the scene can be paused listen for pause event.
         if(this.showPauseScreen)
         {
-            this.springroll.events.addListener('pause', this.onSpringrollPause, this);
+            this.springroll.state.pause.subscribe(this.onSpringrollPause.bind(this));
         }     
         this.events.addListener('shutdown', this.shutdown, this);
     }
 
     onSpringrollPause(isPaused)
     {
+        // Handle pausing and resuming scene.
         if(isPaused && this.showPauseScreen)
         {
             this.scene.pause();
@@ -53,7 +59,7 @@ export class GameScene extends Phaser.Scene
     shutdown()
     {
         Debugger.log('info', `[${this.name}]`, ' -- SHUTDOWN -- ');
-        this.springroll.events.removeListener('pause', this.onSpringrollPause, this);
+        this.springroll.state.pause.unsubscribe(this.onSpringrollPause.bind(this));
         this.events.removeListener('shutdown', this.shutdown, this);
     }
 }
