@@ -16,6 +16,8 @@ export class LoadingScene extends GameScene
     {
         Debugger.log('info', `[${this.name}] -- PRELOAD --`);
 
+
+        // The following creates the loading progress bar.
         const progressBar = this.add.graphics();
         const progressBox = this.add.graphics();
 
@@ -64,6 +66,7 @@ export class LoadingScene extends GameScene
         });
         assetText.setOrigin(0.5, 0.5);
 
+        // These update the bar and clean it up when loading is complete.
         this.load.on('progress', (value) =>
         {
             percentText.setText(parseInt(value * 100) + '%');
@@ -112,26 +115,26 @@ export class LoadingScene extends GameScene
         this.load.audio('jump-fx', ['./assets/common/audio/jump.mp3', './assets/common/audio/jump.ogg']);
         this.load.audio('coin-fx', ['./assets/common/audio/coin.mp3', './assets/common/audio/coin.ogg']);
 
-        // This will load the proper captions depending on the browsers language.
+        // These are using the localizer to grab the proper files based on the browsers language.
         const captionsResult = this.localizer.resolve('captions.json');
         this.load.json('captions', captionsResult.path);
-        this.springroll.events.emit('localizerResolve', captionsResult);
+        this.springroll.container.send('localizerResolve', captionsResult) // <-- this is only for the live update demo
 
         const stringsResult = this.localizer.resolve('strings.json');
         this.load.json('strings', stringsResult.path);
-        this.springroll.events.emit('localizerResolve', stringsResult);
+        this.springroll.container.send('localizerResolve', stringsResult) // <-- this is only for the live update demo
 
         // localizer works for any file type.
         const titleResult = this.localizer.resolve('title/button.png');
         this.load.image('button', titleResult.path);
-        this.springroll.events.emit('localizerResolve', titleResult);
+        this.springroll.container.send('localizerResolve', titleResult) // <-- this is only for the live update demo
     }
 
     on_loadComplete()
     {
         // The captions plugin needs to be initialized after the data is loaded.
         const captionData = this.cache.json.get('captions');
-        this.springroll.setCaptionData(captionData);
+        this.captions.setData(captionData);
 
         this.scene.start(SCENE.TITLE);
     }

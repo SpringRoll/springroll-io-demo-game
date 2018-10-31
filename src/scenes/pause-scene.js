@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { SCENE } from '../constants';
 import { GameScene } from './game-scene';
 
+// this scene is an overlay for any active scene when the game is paused.
 export class PauseScene extends GameScene
 {
     constructor()
@@ -28,12 +29,12 @@ export class PauseScene extends GameScene
             }
         });
 
-        this.springroll.events.emit("pauseScreenActive", true);
+        this.springroll.container.send("pauseScreenActive", true);  // <-- this is only for the live update demo
     }
 
     shutdown()
     {        
         super.shutdown();
-        this.springroll.events.emit("pauseScreenActive", false);
+        this.springroll.container.send("pauseScreenActive", false);  // <-- this is only for the live update demo
     }
 }

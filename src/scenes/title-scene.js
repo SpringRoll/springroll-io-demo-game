@@ -28,19 +28,19 @@ export class TitleScene extends GameScene
 
         this.speaker = new SpeechSynth(SPEECH);
 
-        this.springroll.playCaption('welcome');
+        this.captions.playCaption('welcome');
         this.time.addEvent({delay: 5000, callback: this.speechDelay, callbackScope: this });
 
-        this.springroll.app.hints.clear();
-        this.springroll.app.hints.add(() => {
-            this.springroll.playCaption('title-hint');
+        this.springroll.hints.clear();
+        this.springroll.hints.add(() => {
+            this.captions.playCaption('title-hint');
         });
     }
 
     speechDelay()
     {
-        this.speaker.say(this.stringData.speechIntro);
-        this.springroll.events.emit('speechSynthStart', { text: this.stringData.speechIntro });
+    //    this.speaker.say(this.stringData.speechIntro);
+    //    this.springroll.events.emit('speechSynthStart', { text: this.stringData.speechIntro });
     }
 
     update()

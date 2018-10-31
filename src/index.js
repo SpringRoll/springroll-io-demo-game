@@ -1,23 +1,21 @@
 import Phaser from 'phaser';
 
-import { TitleScene } from './scenes/title-scene';
-import { LoadingScene } from './scenes/loading-scene';
-import { ResultScene } from './scenes/result-scene';
-import { PlatformerScene } from './scenes/platformer-scene';
-import { PauseScene } from './scenes/pause-scene';
-
-import { SpringrollPlugin } from './plugins/springroll-plugin';
+import { LoadingScene, TitleScene, PlatformerScene, ResultScene, PauseScene } from './scenes';
+import { SpringrollPhaserPlugin, CaptionsPlugin, FactoryPlugin } from './plugins';
+import { PLUGIN_NAME, GAMEPLAY } from './constants';
 
 const config = {
     type: Phaser.AUTO,
-    width: 640,
-    height: 480,
+    width: GAMEPLAY.WIDTH,
+    height: GAMEPLAY.HEIGHT,
     backgroundColor: '#6495ED', // <-- Cornflower Blue
-    parent: 'content',
+    parent: 'content', // <-- html div to place canvas
     plugins:
     {
-        global: [
-            { key: "SpringrollPlugin", plugin: SpringrollPlugin, start: true, mapping: 'springroll' },
+        global: [ // install plugins.
+            { key: PLUGIN_NAME.FACTORY, plugin: FactoryPlugin, start: true },
+            { key: PLUGIN_NAME.CAPTIONS, plugin: CaptionsPlugin, start: true, mapping: 'captions' },
+            { key: PLUGIN_NAME.SPRINGROLL_APPLICATION, plugin: SpringrollPhaserPlugin, start: true, mapping: 'springroll' } // <-- note mapping to be used in scenes.
         ]
     },
     physics:
@@ -25,11 +23,11 @@ const config = {
         default: 'arcade',
         arcade:
         {
-            gravity: { y: 350 },
+            gravity: { y: GAMEPLAY.GRAVITY },
             debug: false
         }
     },
-    scene: [LoadingScene, TitleScene, PlatformerScene, ResultScene, PauseScene]
+    scene: [LoadingScene, TitleScene, PlatformerScene, ResultScene, PauseScene] // <-- register scenes.
 }
 
 const game = new Phaser.Game(config);

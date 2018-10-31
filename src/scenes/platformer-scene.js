@@ -3,7 +3,6 @@ import Phaser from 'phaser';
 import { SCENE } from '../constants';
 
 import { GameScene } from './game-scene';
-import { Factory } from '../gameobjects/factory';
 import { Player } from '../gameobjects/player';
 
 export class PlatformerScene extends GameScene
@@ -11,7 +10,11 @@ export class PlatformerScene extends GameScene
     constructor()
     {
         super({ key: SCENE.PLATFORM, active: false, showPauseScreen: true });
-        this.factory = new Factory(this);
+    }
+
+    init(data)
+    {
+        this.level = data.level;
     }
 
     create()
@@ -20,11 +23,10 @@ export class PlatformerScene extends GameScene
         this.createAnimations();
 
         this.add.image(320, 240, 'background');
-
         this.coinSound = this.sound.add('coin-fx');
 
+        // Create Buildings
         this.platforms = this.physics.add.staticGroup();
-
         const ground = this.platforms.create(320, 470, 'ground');
         ground.body.setOffset(0, 10);
 
@@ -32,9 +34,10 @@ export class PlatformerScene extends GameScene
         for (let i = 0; i < buildingData.length; i++)
         {
             const config = buildingData[i];
-            this.factory.createBuilding(this.platforms, config)
+            this.add.building(this.platforms, config)
         }
 
+        // Create Collectibles
         this.collectibles = this.physics.add.group();
         const collectibleData = this.level.collectibles;
 
@@ -43,28 +46,32 @@ export class PlatformerScene extends GameScene
 
         for (let i = 0; i < collectibleData.length; i++)
         {
-            this.factory.createCollectible(this.collectibles, collectibleData[i]);
+            this.add.coin(this.collectibles, collectibleData[i]);
         }
 
+        // Create Player
         this.player = new Player(this, 300, 400);
 
+        // Setup physics
         this.physics.add.collider(this.player.sprite, this.platforms);
         this.physics.add.collider(this.collectibles, this.platforms);
 
         this.physics.add.overlap(this.player.sprite, this.collectibles, this.collect, null, this);
 
+        // Setup Springroll Events
         this.events.addListener('resume', this.resumed, this);
-        this.springroll.events.addListener('sfxVolume', this.sfxVolume, this);
+        this.springroll.state.sfxVolume.subscribe(this.sfxVolume.bind(this));
 
         window.addEventListener('blur', this.resetInput.bind(this));
 
-        this.springroll.app.hints.clear();
-        this.springroll.app.hints.add(() =>
+        // Add gameplay hints. in this case they're simple captions.
+        this.springroll.hints.clear();
+        this.springroll.hints.add(() =>
         {
-            this.springroll.playCaption('game-hint-1');
+            this.captions.playCaption('game-hint-1');
         }, () =>
         {
-            this.springroll.playCaption('game-hint-2');
+            this.captions.playCaption('game-hint-2');
         });
     }
 
@@ -124,11 +131,6 @@ export class PlatformerScene extends GameScene
         });
     }
 
-    init(data)
-    {
-        this.level = data.level;
-    }
-
     collect(player, collectible)
     {
         collectible.disableBody(true, true);
@@ -136,11 +138,13 @@ export class PlatformerScene extends GameScene
         this.coinSound.play();
         if (this.current === this.total)
         {
+            // Game Complete start results screen.
             this.scene.start(SCENE.RESULT);
         }
         else
         {
-            this.springroll.playCaption('count', 0, { collectibles: (this.total - this.current) });
+            // play caption with parameter data.
+            this.captions.playCaption('count', 0, { collectibles: (this.total - this.current) });
         }
     }
 
@@ -154,8 +158,9 @@ export class PlatformerScene extends GameScene
         super.shutdown();
         window.removeEventListener('blur', this.resetInput.bind(this));
         this.events.removeListener('resume', this.resumed, this);
-        this.springroll.events.removeListener('sfxVolume', this.sfxVolume, this);
-        this.springroll.app.hints.clear();
+
+        this.springroll.state.sfxVolume.unsubscribe(this.sfxVolume.bind(this));
+        this.springroll.hints.clear();
     }
 
     resumed()
@@ -165,23 +170,18 @@ export class PlatformerScene extends GameScene
 
     resetInput()
     {
+        // this fixes a small bug with phaser3 input, 
+        // where pausing and resuming can lock input.
         if (!this.player)
         {
             return;
         }
-
-        this.player.keys.space.reset();
-        this.player.keys.a.reset();
-        this.player.keys.d.reset();
-
-        this.player.keys.up.reset();
-        this.player.keys.left.reset();
-        this.player.keys.right.reset();
+        this.player.resetInput();
     }
 
     sfxVolume(value)
     {
-        // In a production game this would be simplified into audio channels
+        // In a production game these would be simplified into audio channels
         // for sfx, vo, etc...
         this.player.jumpSound.volume = value;
         this.coinSound.volume = value;

@@ -1,18 +1,14 @@
-import Phaser from 'phaser';
-import { Debugger } from 'springroll';
-
-/**@typedef {{x:Number, y:Number, width:Number, height:Number}} PlatformConfig  */
-
-export class Factory
+export class FactoryPlugin extends Phaser.Plugins.BasePlugin
 {
-    /**
-     * Creates an instance of Factory.
-     * @param  {Phaser.Scene} scene 
-     * @memberof Factory
-     */
-    constructor(scene)
+    constructor(pluginManager)
     {
-        this.scene = scene; 
+        super(pluginManager);
+
+        // Add factory functions for game objects without internal behaviors.
+        // this isn't strictly necessary, it's mostly personal preference.
+        this.pluginManager.registerGameObject('building', this.createBuilding);
+        this.pluginManager.registerGameObject('staticPlatform', this.createStaticPlatform);
+        this.pluginManager.registerGameObject('coin', this.createCollectible);
     }
 
     /**
@@ -36,7 +32,7 @@ export class Factory
             const ox = config.x + x;
             const oy = config.y + y;
             image.platforms.push(
-                this.createStaticPlatform(group, { x: ox, y: oy, width: config.width, height: config.height })
+                this.scene.add.staticPlatform(group, { x: ox, y: oy, width: config.width, height: config.height })
             );
         }
         return image;
@@ -75,7 +71,7 @@ export class Factory
         return sprite;
     }
 
-    /**
+        /**
      * @param  {Phaser.Physics.Arcade.Group} group 
      * @param  {Number} x 
      * @param  {Number} y 
