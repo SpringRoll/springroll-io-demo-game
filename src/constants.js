@@ -9,9 +9,9 @@ export const SCENE = Object.freeze(
 
 export const PLUGIN_NAME = Object.freeze(
 {
-    APPLICATION: "application.plugin",
-    CAPTIONS: "captions.plugin",
-    FACTORY: 'factory.plugin'
+    SPRINGROLL_APPLICATION: "springroll-phaser-plugin",
+    CAPTIONS: "captions-plugin",
+    FACTORY: 'factory-plugin'
 });
 
 export const GAMEPLAY = Object.freeze(

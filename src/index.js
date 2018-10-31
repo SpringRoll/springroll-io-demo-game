@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 import { LoadingScene, TitleScene, PlatformerScene, ResultScene, PauseScene } from './scenes';
-import { ApplicationPlugin, CaptionsPlugin, FactoryPlugin } from './plugins';
+import { SpringrollPhaserPlugin, CaptionsPlugin, FactoryPlugin } from './plugins';
 import { PLUGIN_NAME, GAMEPLAY } from './constants';
 
 const config = {
@@ -15,7 +15,7 @@ const config = {
         global: [ // install plugins.
             { key: PLUGIN_NAME.FACTORY, plugin: FactoryPlugin, start: true },
             { key: PLUGIN_NAME.CAPTIONS, plugin: CaptionsPlugin, start: true, mapping: 'captions' },
-            { key: PLUGIN_NAME.APPLICATION, plugin: ApplicationPlugin, start: true, mapping: 'springroll' } // <-- note mapping to be used in scenes.
+            { key: PLUGIN_NAME.SPRINGROLL_APPLICATION, plugin: SpringrollPhaserPlugin, start: true, mapping: 'springroll' } // <-- note mapping to be used in scenes.
         ]
     },
     physics:

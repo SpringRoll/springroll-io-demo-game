@@ -4,7 +4,7 @@ import { Debugger } from 'springroll';
 import { SCENE } from '../constants';
 
 /** 
- * @typedef {import('../plugins').ApplicationPlugin} ApplicationPlugin 
+ * @typedef {import('../plugins').SpringrollPhaserPlugin} SpringrollPhaserPlugin 
  * @typedef {import('../plugins').CaptionsPlugin} CaptionsPlugin 
  */
 
@@ -25,7 +25,7 @@ export class GameScene extends Phaser.Scene
 
         // these are the plugins injected into the scene by phaser.
         // this is just to help with auto complete.
-        /** @type ApplicationPlugin */
+        /** @type SpringrollPhaserPlugin */
         this.springroll; 
         /** @type CaptionsPlugin */
         this.captions;

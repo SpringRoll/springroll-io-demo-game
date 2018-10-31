@@ -12,12 +12,12 @@ import { GAMEPLAY, SCENE, PLUGIN_NAME } from '../constants';
  * @class ApplicationPlugin
  * @extends Application
  */
-export class ApplicationPlugin extends Application
+export class SpringrollPhaserPlugin extends Application
 {
     /**
      * Creates an instance of ApplicationPlugin.
      * @param  {Phaser.Plugins.PluginManager} pluginManager 
-     * @memberof ApplicationPlugin
+     * @memberof SpringrollPhaserPlugin
      */
     constructor(pluginManager)
     {
