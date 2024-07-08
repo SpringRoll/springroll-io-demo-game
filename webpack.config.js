@@ -4,13 +4,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlConfig = require(path.join(__dirname, 'html.config'));
 
-const deploy = `/${'docs'}`;
+const deploy = 'docs';
 
-
-const plugins = [new HtmlWebpackPlugin(HtmlConfig), new MiniCssExtractPlugin(), new CopyPlugin([
-  { from: __dirname + '/static', to: __dirname + deploy + '' }
-])];
-
+const plugins = [
+  new HtmlWebpackPlugin(HtmlConfig),
+  new MiniCssExtractPlugin(),
+  new CopyPlugin({
+    patterns: [
+      { from: path.resolve(__dirname, 'static'), to: path.resolve(__dirname, deploy) }
+    ]
+  })
+];
 
 module.exports = {
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
@@ -21,7 +25,9 @@ module.exports = {
     styles: path.join(__dirname, 'src', 'styles.css')
   },
   output: {
-    path: __dirname + deploy
+    path: path.resolve(__dirname, deploy),
+    clean: true, // Clean the output directory before emit.
+    publicPath: '/', // Necessary for webpack-dev-server
   },
   plugins,
   module: {
@@ -41,38 +47,20 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: deploy + '/assets/image/'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(mp3|ogg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: deploy + '/assets/audio/'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(mp4)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: deploy + '/assets/video/'
-            }
-          }
-        ]
+        test: /\.(png|jpg|gif|mp3|ogg|mp4)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: deploy + '/assets/[type]/[name][ext]'
+        }
       }
     ]
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, deploy),
+    },
+    compress: true,
+    port: 9090, // You can specify your port here
+    open: true, // Open the browser after server had been started
   }
 };
