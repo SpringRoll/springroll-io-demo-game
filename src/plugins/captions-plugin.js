@@ -1,56 +1,42 @@
-import { CaptionPlayer, HtmlRenderer, CaptionFactory } from "springroll";
+import { CaptionPlayer, HtmlRenderer, CaptionFactory, BellhopSingleton } from "springroll";
 
-export class CaptionsPlugin extends Phaser.Plugins.BasePlugin
-{
-    constructor(pluginManager)
-    {
+export class CaptionsPlugin extends Phaser.Plugins.BasePlugin {
+    constructor(pluginManager) {
         super(pluginManager);
-
-        const captionsElement = document.getElementById("caption");
-        this.captionPlayer = new CaptionPlayer({}, new HtmlRenderer(captionsElement));
+        this.captionsElement = document.getElementById("captions");
+        this.captionPlayer = new CaptionPlayer({}, new HtmlRenderer(this.captionsElement));
     }
 
-    start()
-    {
+    start() {
         this.game.events.on('step', this.update, this);
     }
 
-    stop()
-    {
+    stop() {
         this.game.events.off('step', this.update, this);
         this.stopCaption();
     }
 
-    setData(data)
-    {
+    setData(data) {
         this.captionPlayer.captions = CaptionFactory.createCaptionMap(data);
     }
 
-    setMute(val)
-    {
-        if (val == true)
-        {
-            this.captionPlayer.stop();
-        }
-        this.isMuted = val;
+    setMute(muted) {
+        this.captionsElement.style.display = this.captionsMuted ? 'none' : 'block';
+        this.muted = muted;
     }
 
-    playCaption(name, time = 0, args = {})
-    {
-        if (this.isMuted)
-        {
+    playCaption(name, time = 0, args = {}) {
+        if (this.muted) {
             return;
         }
         this.captionPlayer.start(name, time, args);
     }
 
-    stopCaption()
-    {
+    stopCaption() {
         this.captionPlayer.stop();
     }
 
-    update(time, delta)
-    {
+    update(time, delta) {
         this.captionPlayer.update(delta / 1000);
     }
 }

@@ -6,6 +6,7 @@ export class ResizePlugin extends Phaser.Plugins.BasePlugin
     constructor(pluginManager)
     {
         super(pluginManager);
+        this.captionsElement = document.getElementById("captions");
         this.safeScaleManager = new SafeScaleManager({
             width: GAMEPLAY.WIDTH,
             height: GAMEPLAY.HEIGHT,
@@ -18,10 +19,14 @@ export class ResizePlugin extends Phaser.Plugins.BasePlugin
             },
             callback: this.onWindowResize.bind(this)
         });
+
+        
     }
 
     onWindowResize({ scaleRatio }) {
         this.game.canvas.style.width = `${GAMEPLAY.WIDTH * scaleRatio}px`;
         this.game.canvas.style.height = `${GAMEPLAY.HEIGHT * scaleRatio}px`;
+
+        this.captionsElement.style.width = `${GAMEPLAY.WIDTH * scaleRatio}px`;
     }
 }
