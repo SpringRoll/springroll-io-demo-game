@@ -1,8 +1,9 @@
-import { CaptionPlayer, HtmlRenderer, CaptionFactory, BellhopSingleton } from "springroll";
+import { CaptionPlayer, HtmlRenderer, CaptionFactory } from "springroll";
 
 export class CaptionsPlugin extends Phaser.Plugins.BasePlugin {
     constructor(pluginManager) {
         super(pluginManager);
+
         this.captionsElement = document.getElementById("captions");
         this.captionPlayer = new CaptionPlayer({}, new HtmlRenderer(this.captionsElement));
     }
@@ -25,11 +26,16 @@ export class CaptionsPlugin extends Phaser.Plugins.BasePlugin {
         this.muted = muted;
     }
 
+    setContainer(container) {
+        this.container = container;
+    }
+
     playCaption(name, time = 0, args = {}) {
         if (this.muted) {
             return;
         }
         this.captionPlayer.start(name, time, args);
+        this.container.send('playCaption', name);
     }
 
     stopCaption() {
