@@ -1,6 +1,11 @@
 import { SafeScaleManager } from "springroll";
 import { GAMEPLAY } from '../constants'; 
 
+/**
+ * ResizePlugin, a Phaser Plugin to handle resizing using the SafeScaleManager.
+ * This resizes the game canvas and captions element.
+ * @extends Phaser.Plugins.BasePlugin
+ */
 export class ResizePlugin extends Phaser.Plugins.BasePlugin
 {
     constructor(pluginManager)
