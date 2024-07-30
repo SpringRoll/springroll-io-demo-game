@@ -38,6 +38,7 @@ export class SpringrollPhaserPlugin extends Application
     {
         this.captionsPlugin = this.pluginManager.get(PLUGIN_NAME.CAPTIONS)
 
+        this.captionsPlugin.setContainer(this.container);
         // wait for the app to be ready, then set the initial scene  
         this.state.ready.subscribe(() =>
         {

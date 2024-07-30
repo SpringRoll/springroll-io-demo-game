@@ -39,8 +39,8 @@ export class TitleScene extends GameScene
 
     speechDelay()
     {
-    //    this.speaker.say(this.stringData.speechIntro);
-    //    this.springroll.events.emit('speechSynthStart', { text: this.stringData.speechIntro });
+        this.speaker.say(this.stringData.speechIntro);
+        this.springroll.container.send('speechSynthStart', { text: this.stringData.speechIntro });
     }
 
     update()
