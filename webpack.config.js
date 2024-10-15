@@ -27,7 +27,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, deploy),
     clean: true, // Clean the output directory before emit.
-    publicPath: '', // Necessary for webpack-dev-server
+    publicPath: './', // Necessary for webpack-dev-server
   },
   plugins,
   module: {
